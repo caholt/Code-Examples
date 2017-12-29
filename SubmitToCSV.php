@@ -8,14 +8,23 @@ if(isset($_REQUEST['submit']) && $_REQUEST['send_check'] == '')
 {
 	$NameSurname = filter_var($_REQUEST['namesurname'], FILTER_SANITIZE_STRING);
 	$Email = filter_var($_REQUEST['email'], FILTER_SANITIZE_STRING);
-	$sMessage ="$NameSurname,$Email";
-	if(file_put_contents("CSV.csv",$sMessage."\n",FILE_APPEND))
+	if($NameSurname == '' || $Email == '')
 	{
 		?>
-		<div class="alert alert-success alert-dismissible fade show" role="alert">
-		  <div>The data has been added to the CSV</div>
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		  <div>Please Make sure you have added data</div>
 		</div>
 		<?php 
+	}else{
+		$sMessage ="$NameSurname,$Email";
+		if(file_put_contents("CSV.csv",$sMessage."\n",FILE_APPEND))
+		{
+			?>
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+			  <div>The data has been added to the CSV</div>
+			</div>
+			<?php 
+		}
 	}
 }
 ?>
